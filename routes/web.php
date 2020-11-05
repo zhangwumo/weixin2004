@@ -17,3 +17,6 @@ Route::get('/', function () {
 Route::get('/info', function () {
     phpinfo();
 });
+Route::get('/test','TestConrroller@test');
+
+Route::get('/test2','TestConrroller@test2');

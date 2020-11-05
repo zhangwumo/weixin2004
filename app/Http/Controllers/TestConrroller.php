@@ -9,7 +9,7 @@ class TestConrroller extends Controller
 {
 
 
-    }
+
  public function token(){
       $echostr=request()->get('echostr','');
       if($this->checkSignature() && !empty($echostr)){

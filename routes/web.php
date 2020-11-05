@@ -19,4 +19,4 @@ Route::get('/info', function () {
 });
 Route::get('/test','TestConrroller@test');
 
-Route::get('/test2','TestConrroller@test2');
+Route::get('/test1','TestConrroller@test1');

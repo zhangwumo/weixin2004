@@ -19,7 +19,7 @@ class TestConrroller extends Controller
         Redis::set ($key,time());
         echo Redis::get($key);
     }
-    public function test2(){
+    public function test1(){
         echo __METHOD__;
     }
 }

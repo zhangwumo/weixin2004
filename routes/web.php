@@ -20,3 +20,6 @@ Route::get('/info', function () {
 Route::get('/test','TestConrroller@test');
 
 Route::get('/test1','TestConrroller@test1');
+
+
+Route::get('Token','TestConrroller@token');

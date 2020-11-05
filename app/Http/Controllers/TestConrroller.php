@@ -8,13 +8,14 @@ use Illuminate\Support\Facades\Redis;
 class TestConrroller extends Controller
 {
 
-    public function token(){
-        $echostr=request()->get('echostr');
-        if($this->checkSignature() && !empty($echostr)){
-            echo $echostr;
-        }
-    }
 
+    }
+ public function token(){
+      $echostr=request()->get('echostr','');
+      if($this->checkSignature() && !empty($echostr)){
+         echo $echostr;
+      }
+   }
 
 private function checkSignature()
 {
@@ -35,4 +36,5 @@ private function checkSignature()
     }
 
 
+}
 }

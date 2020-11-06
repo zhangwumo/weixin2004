@@ -20,6 +20,6 @@ Route::get('/info', function () {
 
 
 
-Route::post('Token','TestController@token');
+Route::any('Token','TestController@wxEvent');
 
 Route::get('/wx/token','TestController@getAccessToken');//获取

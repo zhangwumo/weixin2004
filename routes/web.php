@@ -17,9 +17,9 @@ Route::get('/', function () {
 Route::get('/info', function () {
     phpinfo();
 });
-Route::get('/test','TestConrroller@test');
-
-Route::get('/test1','TestConrroller@test1');
 
 
-Route::get('Token','TestConrroller@token');
+
+Route::any('Token','TestController@token');
+
+Route::any('/wx/token','TestController@getAccessToken');//获取

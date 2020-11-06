@@ -26,13 +26,13 @@ public function wxEvent()
             // 接收数据
             $xml_str=file_get_contents("php://input");
          //记录日志
-//             file_put_contents('wx_event.log',$xml_str);
-// //            Log::info($xml_str);
-//             echo "";
-//             die;
+            file_put_contents('wx_event.log',$xml_str);
+//            Log::info($xml_str);
+            echo "";
+            die;
         //    把xml文本转换为php的对象或数组
-           $data=simplexml_load_string($xml_str,'SimpleXMLElement',LIBXML_NOCDATA);
-           dd($data);
+           // $data=simplexml_load_string($xml_str,'SimpleXMLElement',LIBXML_NOCDATA);
+           // dd($data);
         }else{
             echo "";
         }

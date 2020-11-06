@@ -20,6 +20,6 @@ Route::get('/info', function () {
 
 
 
-Route::any('Token','TestController@token');
+Route::get('Token','TestController@token');
 
-Route::any('/wx/token','TestController@getAccessToken');//获取
+Route::get('/wx/token','TestController@getAccessToken');//获取

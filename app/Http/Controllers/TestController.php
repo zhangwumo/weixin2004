@@ -10,31 +10,33 @@ class TestController extends Controller
 
 
 
- public function token(){
-      $echostr=request()->get('echostr','');
-      if($this->checkSignature() && !empty($echostr)){
-         echo $echostr;
-      }
-   }
+public function wxEvent()
+    {
+        $signature = $_GET["signature"];
+        $timestamp = $_GET["timestamp"];
+        $nonce = $_GET["nonce"];
 
-private function checkSignature()
-{
-    $signature = $_GET["signature"];
-    $timestamp = $_GET["timestamp"];
-    $nonce = $_GET["nonce"];
-
-    $token = "Token";
-    $tmpArr = array($token, $timestamp, $nonce);
-    sort($tmpArr, SORT_STRING);
-    $tmpStr = implode( $tmpArr );
-    $tmpStr = sha1( $tmpStr );
-
-    if( $tmpStr == $signature ){
-        return true;
-    }else{
-        return false;
+        $token = env('WX_TOKEN');
+        $tmpArr = array($token, $timestamp, $nonce);
+        sort($tmpArr, SORT_STRING);
+        $tmpStr = implode( $tmpArr );
+        $tmpStr = sha1( $tmpStr );
+        //验证通过
+        if( $tmpStr == $signature ){
+            // 接收数据
+            $xml_str=file_get_contents("php://input");
+         //记录日志
+            file_put_contents('wx_event.log',$xml_str);
+//            Log::info($xml_str);
+            echo "";
+            die;
+        //    把xml文本转换为php的对象或数组
+//            $data=simplexml_load_string($xml_str,'SimpleXMLElement',LIBXML_NOCDATA);
+//            dd($data);
+        }else{
+            echo "";
+        }
     }
-}
 
     public function getAccessToken(){
         $key = 'wx:access_token';
@@ -59,7 +61,7 @@ private function checkSignature()
 
 
             }
- echo "access_token:".$token;
+    echo "access_token:".$token;
 
 
 

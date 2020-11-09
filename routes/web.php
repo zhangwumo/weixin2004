@@ -23,3 +23,9 @@ Route::get('/info', function () {
 Route::any('Token','TestController@wxEvent');
 
 Route::get('/wx/token','TestController@getAccessToken');//获取
+
+Route::get('data','TestController@data');//测试
+Route::post('date','TestController@date');//测试1
+//微信接口
+Route::get('/guzzle','TestController@guzzle');
+Route::any('/guzzle2','TestController@guzzle2');

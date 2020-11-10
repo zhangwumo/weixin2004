@@ -10,7 +10,7 @@ class TestController extends Controller
 {
 
 
-
+//推送事件
 public function wxEvent()
     {
         $signature = $_GET["signature"];
@@ -29,10 +29,18 @@ public function wxEvent()
          //记录日志
             file_put_contents('wx_event.log',$xml_str);
 //            Log::info($xml_str);
-            echo "";
-            die;
+           // echo "";
+           // die;
         //    把xml文本转换为php的对象或数组
-           // $data=simplexml_load_string($xml_str,'SimpleX36MLElement',LIBXML_NOCDATA);
+           $data=simplexml_load_string($xml_str);
+           //判断
+           if($data->MsgType==Event){
+                if($data->Event=="subscribe"){
+                    $content="关注成功";
+                    $return=$this->nodeInfo($data,$content);
+                    return $return;
+                }
+           }
            // dd($data);
         }else{
 
@@ -67,56 +75,36 @@ public function wxEvent()
 
 
     }
-public function data()
-  {
-    echo '<pre>';print_r($_GET);echo '<pre>';
-  }
 
-public function date()
-  {
-    //echo '<pre>';print_r($_POST);echo '<pre>';
-    $xml_data =file_get_contents("php://input");
+    public function nodeInfo($data,$content){
+        $fromUserName = $data->ToUserName; //开发者微信号
+        $toUserName = $data ->FromUserName;//发送方账号
+        file_put_contents('log,logs',$toUserName);
+        $time=time();
+        $msgType="text";
+        $temlate="<xml>
+                            <ToUserName><![CDATA[%s]]></ToUserName>
+                            <FromUserName><![CDATA[%s]]></FromUserName>
+                            <CreateTime>%s</CreateTime>
+                            <MsgType><![CDATA[%s]]></MsgType>
+                            <Content><![CDATA[%s]]></Content>
+                        </xml>";
 
-    //将xml 转化为 对象或数组
-    $xml_obj= simplexml_load_string($xml_data);
-   // echo '<pre>';print_r($xml_obj);echo '<pre>';
-    echo $xml_obj->ToUserName;
-
-}
-
-
-
-public function guzzle(){
-//        echo __METHOD__;
-        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".env('WX_APPID')."&secret=".env('WX_APPSEC');
-        echo $url;die;
-
-        //使用guzzle发送get请求
-        $client = new Client();   //实例化客户端
-        $response = $client->request('GET',$url,['verify'=>false]);    //发起请求并接受响应
-        $json_str = $response->getBody();   //服务器的响应数据
-        echo $json_str;
+        echo sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$Content);
     }
 
- public function guzzle2(){
-    $access_token = $this->getAccessToken();
-    $type = "image";
-    $url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=".$access_token."&type=".$type;
-    //使用guzzle发送get请求
-    $client = new Client();   //实例化客户端
-    $response = $client->request('POST',$url,[
-        'verify' => false,
-        'multipart' => [
-            [
-                'name'     => 'media',   //上传文件的路径
-                'contents'     => fopen('5.jpg','r'),   //上传文件的路径
-            ],
-
-        ]
-    ]);    //发起请求并接受响应
-    $data = $response->getBody();
-    echo $data;
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

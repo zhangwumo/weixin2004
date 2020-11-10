@@ -11,6 +11,7 @@ class TestController extends Controller
 //推送事件
 public function wxEvent()
     {
+        file_put_contents('1.txt','1');die;
         $signature = $_GET["signature"];
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];

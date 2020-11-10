@@ -29,3 +29,9 @@ Route::post('date','WxController@date');//测试1
 //微信接口
 Route::get('/guzzle','WxController@guzzle');
 Route::any('/guzzle2','WxController@guzzle2');
+
+//菜单
+Route::get('/menu','TestController@menu');
+
+
+//Route::match(['get','post'],'/wx')

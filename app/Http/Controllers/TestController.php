@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\Redis;
 use GuzzleHttp\Client;
 class TestController extends Controller
 {
-
-
 //推送事件
 public function wxEvent()
     {
@@ -21,7 +19,7 @@ public function wxEvent()
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
-        $tmpStr = sha1( $tmpStr );
+        $tmpStr = sha1( $tmpStr );  
         //验证通过
         if( $tmpStr == $signature ){
             // 接收数据
@@ -41,7 +39,7 @@ public function wxEvent()
                     return $return;
                 }
            }
-           // dd($data);
+           // dd($data);  
         }else{
 
         }
@@ -66,20 +64,14 @@ public function wxEvent()
 
         Redis::set($key,$token);
         Redis::expire($key,3600);
-
-
             }
      return $token;
-
-
-
-
     }
 
     public function nodeInfo($data,$content){
         $fromUserName = $data->ToUserName; //开发者微信号
         $toUserName = $data ->FromUserName;//发送方账号
-        file_put_contents('log,logs',$toUserName);
+        file_put_contents('log.logs',$toUserName);
         $time=time();
         $msgType="text";
         $temlate="<xml>
@@ -93,21 +85,26 @@ public function wxEvent()
         echo sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content);
     }
 
-}
+//     public function menu(){
+//          $token = $this->getAccessToken();
+//         $url= "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$token;
+//         $menu = [
+//             "button"=> [
+//                 [
+//                     "type" =>"view",
+//                    "name" =>"搜索",
+//                     "url" => "https://www.baidu.com/"
+//                 ]    
+//             ]
+//                 ];
 
+// $Client = new Client();
+// $response = $Client ->request('POST',$url,[
+//     'verify'=>false,
+//     'body'=>json_encode($menu,JSON_UNESCAPED_UNICODE)
+// ]);
+//     $data = $response->getBody();
+//     echo $data;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
+//       }
+  }

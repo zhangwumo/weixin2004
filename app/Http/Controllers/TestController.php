@@ -34,7 +34,7 @@ public function wxEvent()
         //    把xml文本转换为php的对象或数组
            $data=simplexml_load_string($xml_str);
            //判断
-           if($data->MsgType==Event){
+           if($data->MsgType=="event"){
                 if($data->Event=="subscribe"){
                     $content="关注成功";
                     $return=$this->nodeInfo($data,$content);
@@ -90,7 +90,7 @@ public function wxEvent()
                             <Content><![CDATA[%s]]></Content>
                         </xml>";
 
-        echo sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$Content);
+        echo sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content);
     }
 
 }

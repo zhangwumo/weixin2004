@@ -11,7 +11,7 @@ class TestController extends Controller
 //推送事件
 public function wxEvent()
     {
-        file_put_contents('1.txt','1');die;
+        // file_put_contents('1.txt','1');die;
         $signature = $_GET["signature"];
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
@@ -89,26 +89,26 @@ public function wxEvent()
         echo sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content);
     }
 
-//     public function menu(){
-//          $token = $this->getAccessToken();
-//         $url= "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$token;
-//         $menu = [
-//             "button"=> [
-//                 [
-//                     "type" =>"view",
-//                    "name" =>"搜索",
-//                     "url" => "https://www.baidu.com/"
-//                 ]    
-//             ]
-//                 ];
+    public function menu(){
+         $token = $this->getAccessToken();
+        $url= "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$token;
+        $menu = [
+            "button"=> [
+                [
+                    "type" =>"view",
+                   "name" =>"搜索",
+                    "url" => "https://www.baidu.com/"
+                ]    
+            ]
+                ];
 
-// $Client = new Client();
-// $response = $Client ->request('POST',$url,[
-//     'verify'=>false,
-//     'body'=>json_encode($menu,JSON_UNESCAPED_UNICODE)
-// ]);
-//     $data = $response->getBody();
-//     echo $data;
+$Client = new Client();
+$response = $Client ->request('POST',$url,[
+    'verify'=>false,
+    'body'=>json_encode($menu,JSON_UNESCAPED_UNICODE)
+]);
+    $data = $response->getBody();
+    echo $data;
 
-//       }
+      }
   }

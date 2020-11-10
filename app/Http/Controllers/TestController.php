@@ -81,7 +81,9 @@ public function wxEvent()
                             <MsgType><![CDATA[%s]]></MsgType>
                             <Content><![CDATA[%s]]></Content>
                         </xml>";
-
+file_put_contents ('1.txt',print_r(sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content),1));
+file_put_contents ('2.txt',sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content));
+die;
         echo sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content);
     }
 

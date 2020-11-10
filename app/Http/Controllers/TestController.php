@@ -71,7 +71,7 @@ public function wxEvent()
     public function nodeInfo($data,$content){
         $fromUserName = $data->ToUserName; //开发者微信号
         $toUserName = $data ->FromUserName;//发送方账号
-        file_put_contents('www.log',$toUserName);
+        file_put_contents('www.log',$toUserName,FILE_APPEND);
         $time=time();
         $msgType="text";
         $temlate="<xml>

@@ -33,6 +33,12 @@ public function wxEvent()
            // die;
         //    把xml文本转换为php的对象或数组
            $data=simplexml_load_string($xml_str);
+            $content="1111111";
+           echo  $this->nodeInfo($data,$content);die;
+
+
+
+
            //判断
            if($data->MsgType=="event"){
                 if($data->Event=="subscribe"){
@@ -71,7 +77,7 @@ public function wxEvent()
 
     public function nodeInfo($data,$content){
         $fromUserName = $data->ToUserName; //开发者微信号
-        $toUserName = $data ->FromUserName;//发送方账号
+        $toUserName = $data->FromUserName;//发送方账号
        // file_put_contents('log.logs',$toUserName,FILE_APPEND);
         $CreateTime=time();
         $msgType="text";

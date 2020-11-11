@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use GuzzleHttp\Client;
+use Log;
 class TestController extends Controller
 {
 //推送事件
@@ -26,7 +27,7 @@ public function wxEvent()
             // 接收数据
             $xml_str=file_get_contents("php://input");
          //记录日志
-            file_put_contents('wx_event.log',$xml_str);
+           Log::info("=======",$xml_str);
 //            Log::info($xml_str);
            // echo "";
            // die;

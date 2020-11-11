@@ -12,7 +12,6 @@ class TestController extends Controller
 //推送事件
 public function wxEvent()
     {
-        file_put_contents("logs.log",$xml_str); 
         // file_put_contents('1.txt','1');die;
         $signature = $_GET["signature"];
         $timestamp = $_GET["timestamp"];
@@ -28,7 +27,7 @@ public function wxEvent()
             // 接收数据
             $xml_str=file_get_contents("php://input");
          //记录日志
-        
+           file_put_contents("logs.log",$xml_str);
 //            Log::info($xml_str);
            // echo "";
            // die;
@@ -38,7 +37,7 @@ public function wxEvent()
            if($data->MsgType=="event"){
                 if($data->Event=="subscribe"){
                     $content="关注成功";
-                    echo $this->nodeInfo($data,$content);
+                    return $this->nodeInfo($data,$content);
                 }
            }
            // dd($data);  
@@ -77,17 +76,17 @@ public function wxEvent()
         $CreateTime=time();
         $msgType="text";
         $temlate="<xml>
-                            <ToUserName><![CDATA[%s]]></ToUserName>
-                            <FromUserName><![CDATA[%s]]></FromUserName>
-                            <CreateTime>%s</CreateTime>
-                            <MsgType><![CDATA[%s]]></MsgType>
-                            <Content><![CDATA[%s]]></Content>
-                        </xml>";
+                       <ToUserName><![CDATA[%s]]></ToUserName>
+                       <FromUserName><![CDATA[%s]]></FromUserName>
+                       <CreateTime>%s</CreateTime>
+                       <MsgType><![CDATA[%s]]></MsgType>
+                       <Content><![CDATA[%s]]></Content>
+                  </xml>";
 // file_put_contents ('3.txt','1');
 // file_put_contents ('1.txt',print_r(sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content),1));
 // file_put_contents ('2.txt',sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content));
 // die;
-        echo sprintf($temlate,$fromUserName,$toUserName ,$CreateTime,$msgType,$content);
+        echo sprintf($temlate,$fromUserName,$toUserName,$CreateTime,$msgType,$content);
     }
 
     public function menu(){

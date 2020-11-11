@@ -27,7 +27,7 @@ public function wxEvent()
             // 接收数据
             $xml_str=file_get_contents("php://input");
          //记录日志
-           Log::info("=======",$xml_str);
+           file_put_contents("wx.log",$xml_str);
 //            Log::info($xml_str);
            // echo "";
            // die;

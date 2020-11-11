@@ -47,7 +47,7 @@ public function wxEvent()
            }
            // dd($data);  
         }else{
-            
+
             $xml_str=file_get_contents("php://input");
             $data=simplexml_load_string($xml_str);
 
@@ -86,22 +86,22 @@ public function wxEvent()
     public function nodeInfo($data,$content){
         $fromUserName = $data->ToUserName; //开发者微信号
         $toUserName = $data->FromUserName;//发送方账号
-       // file_put_contents('log.logs',$toUserName,FILE_APPEND);
-        $CreateTime=time();
-        $msgType="text";
+      
         $temlate="<xml>
-                       <ToUserName><![CDATA[%s]]></ToUserName>
-                       <FromUserName><![CDATA[%s]]></FromUserName>
-                       <CreateTime>%s</CreateTime>
-                       <MsgType><![CDATA[%s]]></MsgType>
-                       <Content><![CDATA[%s]]></Content>
+                       <ToUserName><![CDATA[".$toUserName."]]></ToUserName>
+                       <FromUserName><![CDATA[".$fromUserName."]]></FromUserName>
+                       <CreateTime>".time()."</CreateTime>
+                       <MsgType><![CDATA[text]]></MsgType>
+                       <Content><![CDATA[".$content."]]></Content>
                   </xml>";
+        echo $temlate;
+
+    }
 // file_put_contents ('3.txt','1');
 // file_put_contents ('1.txt',print_r(sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content),1));
 // file_put_contents ('2.txt',sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content));
 // die;
-        echo sprintf($temlate,$toUserName,$fromUserName,$CreateTime,$msgType,$content);
-    }
+    
 
     public function menu(){
          $token = $this->getAccessToken();

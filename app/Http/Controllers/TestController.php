@@ -36,8 +36,7 @@ public function wxEvent()
            if($data->MsgType=="event"){
                 if($data->Event=="subscribe"){
                     $content="关注成功";
-                    $return=$this->nodeInfo($data,$content);
-                    return $return;
+                    echo $this->nodeInfo($data,$content);
                 }
            }
            // dd($data);  
@@ -73,7 +72,7 @@ public function wxEvent()
         $fromUserName = $data->ToUserName; //开发者微信号
         $toUserName = $data ->FromUserName;//发送方账号
         file_put_contents('log.logs',$toUserName,FILE_APPEND);
-        $time=time();
+        $CreateTime=time();
         $msgType="text";
         $temlate="<xml>
                             <ToUserName><![CDATA[%s]]></ToUserName>
@@ -86,7 +85,7 @@ public function wxEvent()
 // file_put_contents ('1.txt',print_r(sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content),1));
 // file_put_contents ('2.txt',sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content));
 // die;
-        echo sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content);
+        echo sprintf($temlate,$toUserName,$fromUserName,$CreateTime,$msgType,$content);
     }
 
     public function menu(){

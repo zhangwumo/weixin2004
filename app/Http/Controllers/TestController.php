@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use GuzzleHttp\Client;
+use App\Models\User_info;
 use Log;
 class TestController extends Controller
 {
@@ -41,24 +42,56 @@ public function wxEvent()
            //判断
            if($data->MsgType=="event"){
                 if($data->Event=="subscribe"){
-                    $content="关注成功";
-                    echo  $this->nodeInfo($data,$content);
+                    $accesstoken = nodeInfo();
+                    $openid = $data->FromUserName;
+                    $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$accesstoken."&openid=".$openid."&lang=zh_CN";
+                    $user = file_get_contents($url);//执行$url
+                    $res = json_decode($user,true);
+                    if(isset($res['errcode'])){
+                       file_put_contents('wx_event.log',$res['errcode']);
+                    }else{
+                        $user_id =User_info::where('openid',$openid)->first();
+                            if($user_id){
+                                $user_id->subscribe=1;//如果该字段是1就是关注 
+                                $user_id->save();
+                                $contrntt="欢迎您再次到来";    
+                            }else{
+                                $res = [
+                                'subscribe'=>$res['subscribe'],
+                                'openid'=>$res['openid'],
+                               'nickname'=>$res['nickname'],
+                                'sex'=>$res['sex'],
+                                'city'=>$res['city'],
+                                'country'=>$res['country'],
+                                'province'=>$res['province'],
+                                'language'=>$res['language'],
+                                'headimgurl'=>$res['headimgurl'],
+                                'subscribe_time'=>$res['subscribe_time'],
+                                'subscribe_scene'=>$res['subscribe_scene']
+                                ];
+                                User::insert($res);
+                                $contentt="欢迎关注";
+                            }
+                    }
+                    // $content="关注成功";
+                    // echo  $this->nodeInfo($data,$content);
+                    
                 }
+
            }
-           // dd($data);  
+            
+                
+
+            
+          
         }else{
 
-            $xml_str=file_get_contents("php://input");
-            $data=simplexml_load_string($xml_str);
-
-            $content="关注成功";
-            echo  $this->nodeInfo($data,$content);
-
+           echo "";
 
 
 
         }
-    }
+    }   
     public function getAccessToken(){
         $key = 'wx:access_token';
 
@@ -101,7 +134,7 @@ public function wxEvent()
 // file_put_contents ('1.txt',print_r(sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content),1));
 // file_put_contents ('2.txt',sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content));
 // die;
-    
+       
 
     public function menu(){
          $token = $this->getAccessToken();

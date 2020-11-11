@@ -12,6 +12,7 @@ class TestController extends Controller
 //推送事件
 public function wxEvent()
     {
+        file_put_contents("logs.log",$xml_str); 
         // file_put_contents('1.txt','1');die;
         $signature = $_GET["signature"];
         $timestamp = $_GET["timestamp"];
@@ -27,7 +28,7 @@ public function wxEvent()
             // 接收数据
             $xml_str=file_get_contents("php://input");
          //记录日志
-           file_put_contents("logs.log",$xml_str);
+        
 //            Log::info($xml_str);
            // echo "";
            // die;

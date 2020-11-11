@@ -42,10 +42,11 @@ public function wxEvent()
            //判断
            if($data->MsgType=="event"){
                 if($data->Event=="subscribe"){
-                    $accesstoken = nodeInfo();
+                    $accesstoken = $this->nodeInfo();
                     $openid = $data->FromUserName;
                     $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$accesstoken."&openid=".$openid."&lang=zh_CN";
                     $user = file_get_contents($url);//执行$url
+                    dd($user);
                     $res = json_decode($user,true);
                     if(isset($res['errcode'])){
                        file_put_contents('wx_event.log',$res['errcode']);

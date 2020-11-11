@@ -33,8 +33,7 @@ public function wxEvent()
            // die;
         //    把xml文本转换为php的对象或数组
            $data=simplexml_load_string($xml_str);
-            $content="1111111";
-           echo  $this->nodeInfo($data,$content);die;
+    
 
 
 
@@ -48,6 +47,12 @@ public function wxEvent()
            }
            // dd($data);  
         }else{
+            
+            $content="关注成功";
+            echo  $this->nodeInfo($data,$content);
+
+
+
 
         }
     }

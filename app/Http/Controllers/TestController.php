@@ -27,7 +27,7 @@ public function wxEvent()
             // 接收数据
             $xml_str=file_get_contents("php://input");
          //记录日志
-           file_put_contents("wx_event.log",$xml_str);
+           file_put_contents("wx_event.txt",$xml_str);
 //            Log::info($xml_str);
            // echo "";
            // die;
@@ -37,7 +37,7 @@ public function wxEvent()
            if($data->MsgType=="event"){
                 if($data->Event=="subscribe"){
                     $content="关注成功";
-                    return $this->nodeInfo($data,$content);
+                    echo  $this->nodeInfo($data,$content);
                 }
            }
            // dd($data);  

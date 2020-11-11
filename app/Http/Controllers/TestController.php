@@ -27,7 +27,7 @@ public function wxEvent()
             // 接收数据
             $xml_str=file_get_contents("php://input");
          //记录日志
-           file_put_contents("logs.log",$xml_str);
+           file_put_contents("wx_event.log",$xml_str);
 //            Log::info($xml_str);
            // echo "";
            // die;
@@ -72,7 +72,7 @@ public function wxEvent()
     public function nodeInfo($data,$content){
         $fromUserName = $data->ToUserName; //开发者微信号
         $toUserName = $data ->FromUserName;//发送方账号
-        file_put_contents('logs.log',$toUserName,FILE_APPEND);
+        file_put_contents('log.logs',$toUserName,FILE_APPEND);
         $CreateTime=time();
         $msgType="text";
         $temlate="<xml>

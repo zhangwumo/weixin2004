@@ -47,7 +47,9 @@ public function wxEvent()
            }
            // dd($data);  
         }else{
-            
+            $xml_str=file_get_contents("php://input");
+            $data=simplexml_load_string($xml_str);
+
             $content="关注成功";
             echo  $this->nodeInfo($data,$content);
 

@@ -98,19 +98,19 @@ public function wxEvent()
                     "type" =>"view",
                    "name" =>"搜索",
                     "url" => "https://www.baidu.com/"
-                ]  ,
+                ],
                 [
                     "name"=>"娱乐",   
                     "sub_button"=>[
                         [
                          "type"=>"view",
                          "name"=>"视频",
-                         "url"=>"https:://www.baidu.com/"   
+                         "url"=>"https://www.baidu.com/"   
                         ],
                         [
                             "type"=>"view",
                             "name"=>"音乐",
-                            "url"=>"https:://www.baidu.com/"   
+                            "url"=>"https://www.baidu.com/"   
                         ]
                     ]             
                         ],
@@ -121,12 +121,12 @@ public function wxEvent()
                                 [
                                     "type"=>"view",
                                     "name"=>"语文",
-                                    "url"=>"https:://www.baidu.com/"
+                                    "url"=>"https://www.baidu.com/"
                                 ],
                                 [
                                     "type"=>"view",
                                     "name"=>"数学",
-                                    "url"=>"https:://www.baidu.com/"
+                                    "url"=>"https://www.baidu.com/"
                                 ]
                             ]
                         ]

@@ -27,7 +27,7 @@ public function wxEvent()
             // 接收数据
             $xml_str=file_get_contents("php://input");
          //记录日志
-           file_put_contents("wx.log",$xml_str);
+           file_put_contents("log.logs",$xml_str);
 //            Log::info($xml_str);
            // echo "";
            // die;
@@ -86,7 +86,7 @@ public function wxEvent()
 // file_put_contents ('1.txt',print_r(sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content),1));
 // file_put_contents ('2.txt',sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content));
 // die;
-        echo sprintf($temlate,$toUserName,$fromUserName,$CreateTime,$msgType,$content);
+        echo sprintf($temlate,$fromUserName,$toUserName,$CreateTime,$msgType,$content);
     }
 
     public function menu(){

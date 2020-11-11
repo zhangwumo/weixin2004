@@ -86,7 +86,7 @@ public function wxEvent()
 // file_put_contents ('1.txt',print_r(sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content),1));
 // file_put_contents ('2.txt',sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content));
 // die;
-        echo sprintf($temlate,$fromUserName,$toUserName,$CreateTime,$msgType,$content);
+        echo sprintf($temlate,$toUserName,$fromUserName,$CreateTime,$msgType,$content);
     }
 
     public function menu(){

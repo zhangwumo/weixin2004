@@ -146,7 +146,7 @@ public function wxEvent()
                 [
                     "type" =>"view",
                    "name" =>"天气",
-                    "url" => ""
+                    "url" => "https://www.baidu.com/"
                 ],
                 [
                     "name"=>"娱乐",   

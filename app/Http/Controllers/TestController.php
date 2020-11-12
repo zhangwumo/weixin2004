@@ -196,5 +196,24 @@ $response = $Client ->request('POST',$url,[
 
 
 
-     
+      //关注回复
+      public function responseMsg($array,$Content){
+                  $ToUserName = $array->FromUserName;
+                  $FromUserName = $array->ToUserName;
+                  $CreateTime = time();
+                  $MsgType = "text";
+  
+                  $text = "<xml>
+                    <ToUserName><![CDATA[%s]]></ToUserName>
+                    <FromUserName><![CDATA[%s]]></FromUserName>
+                    <CreateTime>%s</CreateTime>
+                    <MsgType><![CDATA[%s]]></MsgType>
+                    <Content><![CDATA[%s]]></Content>
+                  </xml>";
+                  echo sprintf($text,$ToUserName,$FromUserName,$CreateTime,$MsgType,$Content);
+  
+  
+  
+  
+  }
   }

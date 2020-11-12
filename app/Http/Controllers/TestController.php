@@ -196,4 +196,10 @@ $response = $Client ->request('POST',$url,[
     echo $data;
 
       }
+
+
+
+      public function ik(){
+          echo "ok";
+      }
   }

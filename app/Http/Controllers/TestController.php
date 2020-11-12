@@ -13,7 +13,7 @@ class TestController extends Controller
 //推送事件
 public function wxEvent()
     {
-        // file_put_contents('1.txt','1');die;
+        // file_put_contents('1.txt','1');die;  request()->get("");
         $signature = $_GET["signature"];
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
@@ -56,7 +56,7 @@ public function wxEvent()
                     if(isset($res['errcode'])){
                        file_put_contents('wx_event.log',$xml_str);
                     }else{
-                        $user_id =User_info::where('openid',$openid)->first();
+                        $user_id =user_info::where('openid',$openid)->first();
                             if($user_id){
                                 $user_id->subscribe=1;//如果该字段是1就是关注 
                                 $user_id->save();
@@ -98,30 +98,45 @@ public function wxEvent()
 
 
         }
-    }   
+    }
     public function getAccessToken(){
-        $key = 'wx:access_token';
 
+        $key = 'WX:access_token';
+    
         //检查是否有token
         $token = Redis::get($key);
-            if($token){
-                echo "有缓存";echo '<br>';
-                echo $token;
-            }else{
-                echo "无缓存";
-
-        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".env('WX_APPID')."&secret=".env('WX_APPSEC')."";
-        $response = file_get_contents($url);
-        //echo $response;
-        $data = json_decode($response,true);
-        $token=$data['access_token'];
-        //保存redis
-
+        if($token){
+            echo "有缓存";echo'</br>';
+            
+        }else{
+           
+        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".env('WX_APPID')."&secret=".env('WX_APPSEC');
+    
+    
+            //使用guzzle发送get请求
+            $client = new Client();  //实例化客户端
+            $response = $client->request('GET',$url,['verify'=>false]);     //发送请求并接受响应
+    
+            $json_str = $response->getBody();          //服务器的响应数据
+    
+    
+    
+    
+     
+    
+        $data = json_decode($json_str,true);
+        $token = $data['access_token'];
+    
+    
+        //保存到redis 中  时间为3600
+    
         Redis::set($key,$token);
         Redis::expire($key,3600);
-            }
-     return $token;
-    }
+    
+        }
+        
+        return $token;
+     }
 
     public function nodeInfo($data,$content){
         $fromUserName = $data->ToUserName; //开发者微信号

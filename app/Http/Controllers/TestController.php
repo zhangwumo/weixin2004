@@ -40,8 +40,6 @@ public function wxEvent()
 
 
 
-           
-
            //判断s
            if($data->MsgType=="event"){
                 if($data->Event=="subscribe"){
@@ -63,7 +61,7 @@ public function wxEvent()
                                 $res = [
                                 'subscribe'=>$res['subscribe'],
                                 'openid'=>$res['openid'],
-                               'nickname'=>$res['nickname'],
+                                'nickname'=>$res['nickname'],
                                 'sex'=>$res['sex'],
                                 'city'=>$res['city'],
                                 'country'=>$res['country'],
@@ -147,8 +145,8 @@ public function wxEvent()
             "button"=> [
                 [
                     "type" =>"view",
-                   "name" =>"搜索",
-                    "url" => "https://www.baidu.com/"
+                   "name" =>"天气",
+                    "url" => ""
                 ],
                 [
                     "name"=>"娱乐",   

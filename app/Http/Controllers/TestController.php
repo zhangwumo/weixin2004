@@ -29,7 +29,7 @@ public function wxEvent()
             $xml_str=file_get_contents("php://input");
 
 
-            $content="哈哈";
+            //$content="哈哈";
            
          //记录日志
             file_put_contents('wx_event.txt',$xml_str);
@@ -214,7 +214,5 @@ $response = $Client ->request('POST',$url,[
 
 
 
-      public function ik(){
-          echo "ok";
-      }
+     
   }

@@ -24,80 +24,62 @@ public function wxEvent()
         $tmpStr = implode( $tmpArr );
         $tmpStr = sha1( $tmpStr );  
         //验证通过
-        if( $tmpStr == $signature ){
-            // 接收数据
-            $xml_str=file_get_contents("php://input");
+        if( $tmpStr == $signature ) {
+            //1、接收数据
+           $xml_data = file_get_contents("php://input");
+           //记录日志
+           file_put_contents('wx_event.log',$xml_data);
 
+           //2、把xml文本转换成为php的对象或数组
+           $data = simplexml_load_string($xml_data,'SimpleXMLElement',LIBXML_NOCDATA);
 
-            //$content="哈哈";
-           
-         //记录日志
-            file_put_contents('wx_event.txt',$xml_str);
-//            Log::info($xml_str);
-           // echo "";
-           // die;
-        //    把xml文本转换为php的对象或数组
-           $data=simplexml_load_string($xml_str);
-    
-
-
-
-
-
-           //判断s
-           if($data->MsgType=="event"){
+             if($data->MsgType=="event"){
                 if($data->Event=="subscribe"){
-                    $accesstoken = $this->getAccessToken();
-                    $openid = $data->FromUserName;
-                    $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$accesstoken."&openid=".$openid."&lang=zh_CN";
-                    $user = file_get_contents($url);//执行$url
-                   // dd($user);
-                    $res = json_decode($user,true);
+                  $access_token = $this->getAccessToken();
+                   $openid = $data->FromUserName;
+          $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$openid."&lang=zh_CN";
+                   $user = file_get_contents($url);
+                   $res = json_decode($user,true);
+
                     if(isset($res['errcode'])){
-                       file_put_contents('wx_event.log',$xml_str);
-                    }else{
-                        $user_id =user_info::where('openid',$openid)->first();
-                            if($user_id){
-                                $user_id->subscribe=1;//如果该字段是1就是关注 
-                                $user_id->save();
-                                $contrntt="欢迎您再次到来";    
-                            }else{
-                                $res = [
-                                'subscribe'=>$res['subscribe'],
-                                'openid'=>$res['openid'],
-                                'nickname'=>$res['nickname'],
-                                'sex'=>$res['sex'],
-                                'city'=>$res['city'],
-                                'country'=>$res['country'],
-                                'province'=>$res['province'],
-                                'language'=>$res['language'],
-                                'headimgurl'=>$res['headimgurl'],
-                                'subscribe_time'=>$res['subscribe_time'],
-                                'subscribe_scene'=>$res['subscribe_scene']
-                                ];
-                                
-                                User::insert($res);
-                                $contentt="欢迎关注";
-                            }
-                    }
-                    // $content="关注成功";
-                     //echo  $this->nodeInfo($data,$content);
-                    
+                       file_put_contents('wx_event.log',$res['errcode']);
+                   }else{
+                       $user_id = User_info::where('openid',$openid)->first();
+                        if($user_id){
+                           $user_id->subscribe=1;
+                           $user_id->save();
+                           $contentt = "感谢再次关注";
+                       }else{
+
+                            $res = [
+                               'subscribe'=>$res['subscribe'],
+                               'openid'=>$res['openid'],
+                               'nickname'=>$res['nickname'],
+                               'sex'=>$res['sex'],
+                               'city'=>$res['city'],
+                               'country'=>$res['country'],
+                               'province'=>$res['province'],
+                               'language'=>$res['language'],
+                               'headimgurl'=>$res['headimgurl'],
+                               'subscribe_time'=>$res['subscribe_time'],
+                               'subscribe_scene'=>$res['subscribe_scene']
+
+                           ];
+                           User_info::insert($res);
+                           $contentt = "欢迎老铁关注";
                 }
+             }
+       }
 
-           }
-            
-                
+            //取消关注
+               if($data->Event=='unsubscribe'){
+                   $user_id->subscribe=0;
+                   $user_id->save();
+               }
+               echo $this->responseMsg($data,$contentt);
 
-            
-          
-        }else{
-
-           echo "";
-
-
-
-        }
+                   }
+       }
     }
     public function getAccessToken(){
 

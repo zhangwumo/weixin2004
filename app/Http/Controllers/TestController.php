@@ -81,7 +81,7 @@ public function wxEvent()
                             }
                     }
                     // $content="关注成功";
-                     echo  $this->nodeInfo($data,$content);
+                     //echo  $this->nodeInfo($data,$content);
                     
                 }
 

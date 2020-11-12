@@ -27,8 +27,9 @@ public function wxEvent()
         if( $tmpStr == $signature ){
             // 接收数据
             $xml_str=file_get_contents("php://input");
+           
          //记录日志
-           file_put_contents("wx_event.txt",$xml_str);
+            file_put_contents('wx_event.log',$xml_str);
 //            Log::info($xml_str);
            // echo "";
            // die;
@@ -50,7 +51,7 @@ public function wxEvent()
                    // dd($user);
                     $res = json_decode($user,true);
                     if(isset($res['errcode'])){
-                       file_put_contents('wx_event.log',$res['errcode']);
+                       file_put_contents('wx_event.log',$xml_str);
                     }else{
                         $user_id =User_info::where('openid',$openid)->first();
                             if($user_id){
@@ -71,6 +72,7 @@ public function wxEvent()
                                 'subscribe_time'=>$res['subscribe_time'],
                                 'subscribe_scene'=>$res['subscribe_scene']
                                 ];
+                                
                                 User::insert($res);
                                 $contentt="欢迎关注";
                             }

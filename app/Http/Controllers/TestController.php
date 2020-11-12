@@ -76,7 +76,7 @@ public function wxEvent()
                    $user_id->subscribe=0;
                    $user_id->save();
                }
-               echo $this->responseMsg($data,$contentt);
+               echo $this->nodeInfo($data,$contentt);
 
                    }
        }
@@ -120,20 +120,20 @@ public function wxEvent()
         return $token;
      }
 
-//     public function nodeInfo($data,$content){
-//         $fromUserName = $data->ToUserName; //开发者微信号
-//         $toUserName = $data->FromUserName;//发送方账号
+    public function nodeInfo($data,$content){
+        $fromUserName = $data->ToUserName; //开发者微信号
+        $toUserName = $data->FromUserName;//发送方账号
       
-//         $temlate="<xml>
-//                        <ToUserName><![CDATA[".$toUserName."]]></ToUserName>
-//                        <FromUserName><![CDATA[".$fromUserName."]]></FromUserName>
-//                        <CreateTime>".time()."</CreateTime>
-//                        <MsgType><![CDATA[text]]></MsgType>
-//                        <Content><![CDATA[".$content."]]></Content>
-//                   </xml>";
-//         echo $temlate;
+        $temlate="<xml>
+                       <ToUserName><![CDATA[".$toUserName."]]></ToUserName>
+                       <FromUserName><![CDATA[".$fromUserName."]]></FromUserName>
+                       <CreateTime>".time()."</CreateTime>
+                       <MsgType><![CDATA[text]]></MsgType>
+                       <Content><![CDATA[".$content."]]></Content>
+                  </xml>";
+        echo $temlate;
 
-//     }
+    }
 // file_put_contents ('3.txt','1');
 // file_put_contents ('1.txt',print_r(sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content),1));
 // file_put_contents ('2.txt',sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content));
@@ -196,24 +196,24 @@ $response = $Client ->request('POST',$url,[
 
 
 
-      //关注回复
-      public function responseMsg($array,$Contentt){
-                  $ToUserName = $array->FromUserName;
-                  $FromUserName = $array->ToUserName;
-                  $CreateTime = time();
-                  $MsgType = "text";
+//       //关注回复
+//       public function responseMsg($array,$Contentt){
+//                   $ToUserName = $array->FromUserName;
+//                   $FromUserName = $array->ToUserName;
+//                   $CreateTime = time();
+//                   $MsgType = "text";
   
-                  $text = "<xml>
-                    <ToUserName><![CDATA[%s]]></ToUserName>
-                    <FromUserName><![CDATA[%s]]></FromUserName>
-                    <CreateTime>%s</CreateTime>
-                    <MsgType><![CDATA[%s]]></MsgType>
-                    <Content><![CDATA[%s]]></Content>
-                  </xml>";
-                  echo sprintf($text,$ToUserName,$FromUserName,$CreateTime,$MsgType,$Content);
-  
-  
+//                   $text = "<xml>
+//                     <ToUserName><![CDATA[%s]]></ToUserName>
+//                     <FromUserName><![CDATA[%s]]></FromUserName>
+//                     <CreateTime>%s</CreateTime>
+//                     <MsgType><![CDATA[%s]]></MsgType>
+//                     <Content><![CDATA[%s]]></Content>
+//                   </xml>";
+//                   echo sprintf($text,$ToUserName,$FromUserName,$CreateTime,$MsgType,$Content);
   
   
-   }
+  
+  
+//    }
   }

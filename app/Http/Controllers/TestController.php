@@ -27,9 +27,12 @@ public function wxEvent()
         if( $tmpStr == $signature ){
             // 接收数据
             $xml_str=file_get_contents("php://input");
+
+
+            $content="哈哈";
            
          //记录日志
-            file_put_contents('wx_event.log',$xml_str);
+            file_put_contents('wx_event.txt',$xml_str);
 //            Log::info($xml_str);
            // echo "";
            // die;
@@ -78,7 +81,7 @@ public function wxEvent()
                             }
                     }
                     // $content="关注成功";
-                    // echo  $this->nodeInfo($data,$content);
+                     echo  $this->nodeInfo($data,$content);
                     
                 }
 

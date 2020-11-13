@@ -31,6 +31,30 @@ public function wxEvent()
            //记录日志
            file_put_contents('wx_event.log',$xml_data);
 
+            if($data->EventKey == "zhang"){
+                $key = $data->FromIserName;
+                $times = date("Y-m-d", time());
+                $date =Redis::zrange($key, 0,-1);//从0开始
+                if($data){
+                    $date = $date[0];//下标为0
+                }   
+                if($date == $times){
+                    $comtent = "你已经签到过了 快滚吧";
+                }else{
+                    $zcard =Redis::zcard($key);//zcard 获取它的总数量
+                    if($zcard >=1){ //他的值只会保留一个 只会保留当天签到
+                        Redis::zremrangebyrank($key , 0, 0);
+                    }
+                    $keys = $this->array_xml($str);
+                    $keys = $keys['FromUserName'];
+                    $zincrby = Redis::zincrby($key,1,$keys);
+                    $zadd = Redis::zadd($key,$zzincrby,$times);
+                    $score = Redis::incrby($keys . "_score",100);
+                }
+                $content ="恭喜你签到了第". $zincrby . "天" . "那你积累获得了".$score."积分";
+                    
+                }
+
            //2、把xml文本转换成为php的对象或数组
            $data = simplexml_load_string($xml_data,'SimpleXMLElement',LIBXML_NOCDATA);
             if($data->Event!="subscribe" && $data->Event!= "unsubscribe"){
@@ -175,7 +199,7 @@ public function wxEvent()
 // file_put_contents ('2.txt',sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content));
 // die;
 
-
+    //菜单
     public function menu(){
          $token = $this->getAccessToken();
         $url= "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$token;
@@ -196,8 +220,8 @@ public function wxEvent()
                         ],
                         [
                             "type"=>"view",
-                            "name"=>"音乐",
-                            "url"=>"https://www.baidu.com/"
+                            "name"=>"拼多多",
+                            "url"=>"https://www.pinduoduo.com/"
                         ]
                     ]
                         ],
@@ -229,6 +253,9 @@ $response = $Client ->request('POST',$url,[
     echo $data;
     }
     
+
+
+    //图片，视频，语言，
     public function typeContent($data){
         $res = Media::where("media_id",$data->MediaId)->first();
         $token = $this->getAccessToken(); //获取token、

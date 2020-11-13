@@ -10,4 +10,13 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    
+
+    public function array_xml ($a){
+        $data = simplexml_load_string($a, "SimpleXMLElement", LIBXML_NOCDATA);
+        $datat = json_decode(json_encode($data),true);
+        return $datat;
+ 
+    }
+
 }

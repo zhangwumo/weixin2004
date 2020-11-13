@@ -228,7 +228,7 @@ $response = $Client ->request('POST',$url,[
     }
     
     public function typeContent($data){
-        $res = Medis::where("media_id",$obj->MediaId)->first();
+        $res = Media::where("media_id",$obj->MediaId)->first();
         $token = $this->getAccessToken(); //获取token、
         if(empty($res)){
             $url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=".$token."&medis_id=".$obj->MedisaId;

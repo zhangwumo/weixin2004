@@ -22,7 +22,7 @@ public function wxEvent()
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
-        $tmpStr = sha1( $tmpStr );  
+        $tmpStr = sha1( $tmpStr );
         //验证通过
         if( $tmpStr == $signature ) {
             //1、接收数据
@@ -98,7 +98,7 @@ public function wxEvent()
             $content .= "风向".$today['direct']."\n";
             $content .= "风力".$today['power']."\n";
             $content .= "空气质量指数".$today['aqi']."\n";
-    
+
             //获取一个星期的天气
             $future = $res['result']['future'];
             foreach($future as $k=>$v){
@@ -109,55 +109,51 @@ public function wxEvent()
             $content = "你查寻的天气失败，请输入正确的格式:天气、城市";
         }
         //file_put_contents("tianqi.txt",$content);
-    
-        echo $this->nodeInfo($data,$content);   
-    
+
+        echo $this->nodeInfo($data,$content);
+
     }
-    
+
     }
     public function getAccessToken(){
 
         $key = 'WX:access_token';
-    
+
         //检查是否有token
         $token = Redis::get($key);
         if($token){
             echo "有缓存";echo'</br>';
-            
+
         }else{
-           
+
         $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".env('WX_APPID')."&secret=".env('WX_APPSEC');
-    
-    
+
+
             //使用guzzle发送get请求
             $client = new Client();  //实例化客户端
             $response = $client->request('GET',$url,['verify'=>false]);     //发送请求并接受响应
-    
+
             $json_str = $response->getBody();          //服务器的响应数据
-    
-    
-    
-    
-     
-    
+
+
         $data = json_decode($json_str,true);
         $token = $data['access_token'];
-    
-    
+
+
         //保存到redis 中  时间为3600
-    
+
         Redis::set($key,$token);
         Redis::expire($key,3600);
-    
+
         }
-        
+
         return $token;
      }
 
     public function nodeInfo($data,$content){
         $fromUserName = $data->ToUserName; //开发者微信号
         $toUserName = $data->FromUserName;//发送方账号
-      
+      //关注回复
         $temlate="<xml>
                        <ToUserName><![CDATA[".$toUserName."]]></ToUserName>
                        <FromUserName><![CDATA[".$fromUserName."]]></FromUserName>
@@ -172,7 +168,7 @@ public function wxEvent()
 // file_put_contents ('1.txt',print_r(sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content),1));
 // file_put_contents ('2.txt',sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content));
 // die;
-       
+
 
     public function menu(){
          $token = $this->getAccessToken();
@@ -185,19 +181,19 @@ public function wxEvent()
                     "url" => "https://www.baidu.com/"
                 ],
                 [
-                    "name"=>"娱乐",   
+                    "name"=>"娱乐",
                     "sub_button"=>[
                         [
                          "type"=>"view",
                          "name"=>"视频",
-                         "url"=>"https://www.baidu.com/"   
+                         "url"=>"https://www.baidu.com/"
                         ],
                         [
                             "type"=>"view",
                             "name"=>"音乐",
-                            "url"=>"https://www.baidu.com/"   
+                            "url"=>"https://www.baidu.com/"
                         ]
-                    ]             
+                    ]
                         ],
 
                         [
@@ -211,7 +207,7 @@ public function wxEvent()
                                 [
                                     "type"=>"view",
                                     "name"=>"数学",
-                                    "url"=>"https://www.baidu.com/"
+                                    "url"=>"https://www.baidu.com/" 
                                 ]
                             ]
                         ]
@@ -222,32 +218,53 @@ $Client = new Client();
 $response = $Client ->request('POST',$url,[
     'verify'=>false,
     'body'=>json_encode($menu,JSON_UNESCAPED_UNICODE)
-]);
+                                            ]);
     $data = $response->getBody();
     echo $data;
+    }
+    
+    public function typeContent($data){
+        $res = Medis::where("media_id",$obj->MediaId)->first();
+        $token = $this->getAccessToken(); //获取token、
+        if(empty($res)){
+            $url = "https https://api.weixin.qq.com/cgi-bin/media/get?access_token=".$token."&medis_id=".$obj->MedisaId;
+            $url = file_get_contents($url);
+            $data=[
+                "time"=>time(), //类型公用的 类型不一样向 $data里面查数据
+                "msg_type"=>$obj->MsgType,
+                "openid"=>$obj->FromUserName,
+                "msg_id"=>$obj->MsgId
+            ];
+            //图片
+            if($obj->MsgType=="image"){
+                $file_type = '.jpg';
+                $data["url"] = $obj->PicUrl;
+                $data["medis_id"] =$obj->MediaId;
+            }
+            //视频
+            if($obj->MsgType=="video"){
+                $file_type='.mp4';
+                $data["media_id"]=$obj->MediaId;
+            }
+            //文本
+            if($obj->MsgType=="text"){
+                $file_type='.txt';
+                $data["content"]=$obj->Content;
+            }
+            //音频
+            if($ovj->MsgType=="voice"){
+                $file_type ='.amr';
+                $data["media_id"]=$obj->MediaId;
+            }
+            if(!empty($file_type)){
+                file_put_contents("dwaw".$file_type,$url);
+            }
+            Media::create($data);
+
+        }else{
+            return $res;
+        }
+        return true;
+    }
 
       }
-
-
-
-//       //关注回复
-//       public function responseMsg($array,$Contentt){
-//                   $ToUserName = $array->FromUserName;
-//                   $FromUserName = $array->ToUserName;
-//                   $CreateTime = time();
-//                   $MsgType = "text";
-  
-//                   $text = "<xml>
-//                     <ToUserName><![CDATA[%s]]></ToUserName>
-//                     <FromUserName><![CDATA[%s]]></FromUserName>
-//                     <CreateTime>%s</CreateTime>
-//                     <MsgType><![CDATA[%s]]></MsgType>
-//                     <Content><![CDATA[%s]]></Content>
-//                   </xml>";
-//                   echo sprintf($text,$ToUserName,$FromUserName,$CreateTime,$MsgType,$Content);
-  
-  
-  
-  
-//    }
-  }

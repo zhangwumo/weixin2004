@@ -34,4 +34,3 @@ Route::any('/guzzle2','WxController@guzzle2');
 Route::get('/menu','TestController@menu');
 
 
-//Route::match(['get','post'],'/wx')

@@ -229,42 +229,42 @@ $response = $Client ->request('POST',$url,[
     }
     
     public function typeContent($data){
-        $res = Media::where("media_id",$obj->MediaId)->first();
+        $res = Media::where("media_id",$data->MediaId)->first();
         $token = $this->getAccessToken(); //获取token、
         if(empty($res)){
             $url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=".$token."&medis_id=".$obj->MedisaId;
             $url = file_get_contents($url);
-            $data=[
+            $obj=[
                 "time"=>time(), //类型公用的 类型不一样向 $data里面查数据
-                "msg_type"=>$obj->MsgType,
-                "openid"=>$obj->FromUserName,
-                "msg_id"=>$obj->MsgId
+                "msg_type"=>$data->MsgType,
+                "openid"=>$data->FromUserName,
+                "msg_id"=>$data->MsgId
             ];
             //图片
-            if($obj->MsgType=="image"){
+            if($data->MsgType=="image"){
                 $file_type = '.jpg';
-                $data["url"] = $obj->PicUrl;
-                $data["media_id"] =$obj->MediaId;
+                $data["url"] = $data->PicUrl;
+                $data["media_id"] =$data->MediaId;
             }
             //视频
-            if($obj->MsgType=="video"){
+            if($data->MsgType=="video"){
                 $file_type='.mp4';
-                $data["media_id"]=$obj->MediaId;
+                $data["media_id"]=$data->MediaId;
             }
             //文本
-            if($obj->MsgType=="text"){
+            if($data->MsgType=="text"){
                 $file_type='.txt';
-                $data["content"]=$obj->Content;
+                $data["content"]=$data->Content;
             }
             //音频
             if($ovj->MsgType=="voice"){
                 $file_type ='.amr';
-                $data["media_id"]=$obj->MediaId;
+                $data["media_id"]=$data->MediaId;
             }
             if(!empty($file_type)){
                 file_put_contents("dwaw".$file_type,$url);
             }
-            Media::insert($data);
+            Media::insert($obj);
 
         }else{
             return $res;

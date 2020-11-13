@@ -245,6 +245,7 @@ $response = $Client ->request('POST',$url,[
                 $file_type = '.jpg';
                 $data["url"] = $data->PicUrl;
                 $data["media_id"] =$data->MediaId;
+                $contentt="";
             }
             //视频
             if($data->MsgType=="video"){

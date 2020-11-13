@@ -232,7 +232,7 @@ $response = $Client ->request('POST',$url,[
         $res = Media::where("media_id",$data->MediaId)->first();
         $token = $this->getAccessToken(); //获取token、
         if(empty($res)){
-            $url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=".$token."&medis_id=".$obj->MedisaId;
+            $url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=".$token."&medis_id=".$data->MedisaId;
             $url = file_get_contents($url);
             $obj=[
                 "time"=>time(), //类型公用的 类型不一样向 $data里面查数据

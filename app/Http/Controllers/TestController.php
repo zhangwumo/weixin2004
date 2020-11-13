@@ -27,9 +27,9 @@ public function wxEvent()
         //验证通过
         if( $tmpStr == $signature ) {
             //1、接收数据
-           $xml_data = file_get_contents("php://input");
+        $xml_data = file_get_contents("php://input");
            //记录日志
-           file_put_contents('wx_event.log',$xml_data);
+        file_put_contents('wx_event.log',$xml_data);
 
             //2、把xml文本转换成为php的对象或数组
             $data = simplexml_load_string($xml_data,'SimpleXMLElement',LIBXML_NOCDATA);
@@ -55,65 +55,65 @@ public function wxEvent()
                     $keys = $this->array_xml($str);
                     $keys = $keys['FromUserName'];
                     $zincrby = Redis::zincrby($key,1,$keys);
-                    $zadd = Redis::zadd($key,$zzincrby,$times);
+                    $zadd = Redis::zadd($key,$zincrby,$times);
                     $score = Redis::incrby($keys . "_score",100);
                 }
                 $content ="恭喜你签到了第". $zincrby . "天" . "那你积累获得了".$score."积分";
                     
                 }
 
-          
+    
 
 
-             if($data->MsgType=="event"){
+            if($data->MsgType=="event"){
                 if($data->Event=="subscribe"){
-                  $access_token = $this->getAccessToken();
-                   $openid = $data->FromUserName;
-          $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$openid."&lang=zh_CN";
-                   $user = file_get_contents($url);
-                   $res = json_decode($user,true);
+                $access_token = $this->getAccessToken();
+                $openid = $data->FromUserName;
+                $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$openid."&lang=zh_CN";
+                $user = file_get_contents($url);
+                $res = json_decode($user,true);
 
                     if(isset($res['errcode'])){
-                       file_put_contents('wx_event.log',$res['errcode']);
-                   }else{
-                       $user_id = User_info::where('openid',$openid)->first();
+                    file_put_contents('wx_event.log',$res['errcode']);
+                }else{
+                    $user_id = User_info::where('openid',$openid)->first();
                         if($user_id){
-                           $user_id->subscribe=1;
-                           $user_id->save();
-                           $contentt = "感谢再次关注";
-                       }else{
+                        $user_id->subscribe=1;
+                        $user_id->save();
+                        $contentt = "感谢再次关注";
+                    }else{
 
                             $res = [
-                               'subscribe'=>$res['subscribe'],
-                               'openid'=>$res['openid'],
-                               'nickname'=>$res['nickname'],
-                               'sex'=>$res['sex'],
-                               'city'=>$res['city'],
-                               'country'=>$res['country'],
-                               'province'=>$res['province'],
-                               'language'=>$res['language'],
-                               'headimgurl'=>$res['headimgurl'],
-                               'subscribe_time'=>$res['subscribe_time'],
-                               'subscribe_scene'=>$res['subscribe_scene']
+                            'subscribe'=>$res['subscribe'],
+                            'openid'=>$res['openid'],
+                            'nickname'=>$res['nickname'],
+                            'sex'=>$res['sex'],
+                            'city'=>$res['city'],
+                            'country'=>$res['country'],
+                            'province'=>$res['province'],
+                            'language'=>$res['language'],
+                            'headimgurl'=>$res['headimgurl'],
+                            'subscribe_time'=>$res['subscribe_time'],
+                            'subscribe_scene'=>$res['subscribe_scene']
 
-                           ];
-                           User_info::insert($res);
-                           $contentt = "欢迎老铁关注";
+                        ];
+                        User_info::insert($res);
+                        $contentt = "欢迎老铁关注";
                 }
-             }
-       }
+            }
+    }
 
             //取消关注
-               if($data->Event=='unsubscribe'){
-                   $user_id->subscribe=0;
-                   $user_id->save();
-               }
-               echo $this->nodeInfo($data,$contentt);
+            if($data->Event=='unsubscribe'){
+                $user_id->subscribe=0;
+                $user_id->save();
+            }
+            echo $this->nodeInfo($data,$contentt);
 
-                   }
-       }
+                }
+    }
 
-       if($data->MsgType=="text"){
+    if($data->MsgType=="text"){
         $city = urlencode(str_replace("天气:","",$data->Content));
         $key = "e2ca2bb61958e6478028e72b8a7a8b60";
         $url = "http://apis.juhe.cn/simpleWeather/query?city=".$city."&key=".$key;
@@ -180,45 +180,45 @@ public function wxEvent()
         }
 
         return $token;
-     }
+    }
 
     public function nodeInfo($data,$content){
         $fromUserName = $data->ToUserName; //开发者微信号
         $toUserName = $data->FromUserName;//发送方账号
       //关注回复
         $temlate="<xml>
-                       <ToUserName><![CDATA[".$toUserName."]]></ToUserName>
-                       <FromUserName><![CDATA[".$fromUserName."]]></FromUserName>
-                       <CreateTime>".time()."</CreateTime>
-                       <MsgType><![CDATA[text]]></MsgType>
-                       <Content><![CDATA[".$content."]]></Content>
-                  </xml>";
+                    <ToUserName><![CDATA[".$toUserName."]]></ToUserName>
+                    <FromUserName><![CDATA[".$fromUserName."]]></FromUserName>
+                    <CreateTime>".time()."</CreateTime>
+                    <MsgType><![CDATA[text]]></MsgType>
+                    <Content><![CDATA[".$content."]]></Content>
+                </xml>";
         echo $temlate;
 
     }
-// file_put_contents ('3.txt','1');
-// file_put_contents ('1.txt',print_r(sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content),1));
-// file_put_contents ('2.txt',sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content));
+// file_put_contents ('3.txt','1');
+// file_put_contents ('1.txt',print_r(sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content),1));
+// file_put_contents ('2.txt',sprintf($temlate,$toUserName,$fromUserName,$time,$msgType,$content));
 // die;
 
     //菜单
     public function menu(){
-         $token = $this->getAccessToken();
+        $token = $this->getAccessToken();
         $url= "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$token;
         $menu = [
             "button"=> [
                 [
                     "type" =>"view",
-                   "name" =>"搜索",
+                    "name" =>"搜索",
                     "url" => "https://www.baidu.com/"
                 ],
                 [
                     "name"=>"娱乐",
                     "sub_button"=>[
                         [
-                         "type"=>"click",
-                         "name"=>"签到",
-                         "key"=>"zwm",
+                        "type"=>"click",
+                        "name"=>"签到",
+                        "key"=>"zwm",
                         ],
                         [
                             "type"=>"view",
@@ -303,4 +303,4 @@ $response = $Client ->request('POST',$url,[
         return true;
     }
 
-      }
+    }

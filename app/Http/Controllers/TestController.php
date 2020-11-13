@@ -227,7 +227,7 @@ $response = $Client ->request('POST',$url,[
         $res = Medis::where("media_id",$obj->MediaId)->first();
         $token = $this->getAccessToken(); //获取token、
         if(empty($res)){
-            $url = "https https://api.weixin.qq.com/cgi-bin/media/get?access_token=".$token."&medis_id=".$obj->MedisaId;
+            $url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=".$token."&medis_id=".$obj->MedisaId;
             $url = file_get_contents($url);
             $data=[
                 "time"=>time(), //类型公用的 类型不一样向 $data里面查数据
@@ -239,7 +239,7 @@ $response = $Client ->request('POST',$url,[
             if($obj->MsgType=="image"){
                 $file_type = '.jpg';
                 $data["url"] = $obj->PicUrl;
-                $data["medis_id"] =$obj->MediaId;
+                $data["media_id"] =$obj->MediaId;
             }
             //视频
             if($obj->MsgType=="video"){
@@ -259,7 +259,7 @@ $response = $Client ->request('POST',$url,[
             if(!empty($file_type)){
                 file_put_contents("dwaw".$file_type,$url);
             }
-            Media::create($data);
+            Media::insert($data);
 
         }else{
             return $res;

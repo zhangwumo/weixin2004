@@ -32,6 +32,10 @@ public function wxEvent()
 
            //2、把xml文本转换成为php的对象或数组
            $data = simplexml_load_string($xml_data,'SimpleXMLElement',LIBXML_NOCDATA);
+            if($data->Event!="subscribe" && $data->Event!= "unsubscribe"){
+                $this->typeContent($data); //先调用这个方法 判断是什么类型
+            }
+
 
              if($data->MsgType=="event"){
                 if($data->Event=="subscribe"){

@@ -35,7 +35,7 @@ public function wxEvent()
            $data = simplexml_load_string($xml_data,'SimpleXMLElement',LIBXML_NOCDATA);
             if($data->Event!="subscribe" && $data->Event!= "unsubscribe"){
                 $this->typeContent($data); //先调用这个方法 判断是什么类型
-                $contentt = '';
+               
             }
 
 
@@ -266,7 +266,7 @@ $response = $Client ->request('POST',$url,[
             if(!empty($file_type)){
                 file_put_contents("dwaw".$file_type,$url);
             }
-            Media::insert($obj);
+            Media::insert($obj);exit;
 
         }else{
             return $res;

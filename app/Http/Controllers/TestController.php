@@ -214,9 +214,9 @@ public function wxEvent()
                     "name"=>"娱乐",
                     "sub_button"=>[
                         [
-                         "type"=>"view",
-                         "name"=>"视频",
-                         "url"=>"https://www.baidu.com/"
+                         "type"=>"click",
+                         "name"=>"签到",
+                         "url"=>"zhang",
                         ],
                         [
                             "type"=>"view",

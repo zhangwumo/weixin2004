@@ -257,7 +257,7 @@ $response = $Client ->request('POST',$url,[
                 $data["content"]=$data->Content;
             }
             //音频
-            if($ovj->MsgType=="voice"){
+            if($data->MsgType=="voice"){
                 $file_type ='.amr';
                 $data["media_id"]=$data->MediaId;
             }

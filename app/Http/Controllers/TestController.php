@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use GuzzleHttp\Client;
 use App\Models\User_info;
+use App\Models\Media;
 use Log;
 class TestController extends Controller
 {

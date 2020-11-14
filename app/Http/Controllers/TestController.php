@@ -49,7 +49,7 @@ public function wxEvent()
                     if($zcard >=1){ //他的值只会保留一个 只会保留当天签到
                         Redis::zremrangebyrank($key , 0, 0);
                     }
-                    $keys = $this->array_xml($str);
+                    $keys = $this->array_xml($xml_data);
                     $keys = $keys['FromUserName'];
                     $zincrby = Redis::zincrby($key,1,$keys);
                     $zadd = Redis::zadd($key,$zincrby,$times);

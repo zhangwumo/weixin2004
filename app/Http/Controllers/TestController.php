@@ -39,7 +39,7 @@ public function wxEvent()
                 $key = $data->FromIserName;
                 $times = date("Y-m-d", time());
                 $date =Redis::zrange($key, 0,-1);//从0开始
-                if($data){
+                if($date){
                     $date = $date[0];//下标为0
                 }   
                 if($date == $times){

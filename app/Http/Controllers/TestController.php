@@ -42,6 +42,7 @@ public function wxEvent()
                 if($date){
                     $date = $date[0];//下标为0
                 }   
+
                 if($date == $times){
                     $comtent = "你已经签到过了 快滚吧";
                 }else{
@@ -54,11 +55,13 @@ public function wxEvent()
                     $zincrby = Redis::zincrby($key,1,$keys);
                     $zadd = Redis::zadd($key,$zincrby,$times);
                     $score = Redis::incrby($keys . "_score",100);
+                    $content ="恭喜你签到了第". $zincrby . "天" . "那你积累获得了".$score."积分";
                 }
-                $content ="恭喜你签到了第". $zincrby . "天" . "那你积累获得了".$score."积分";
+            
                 
                     
                 }
+            
             
 
 

@@ -37,8 +37,8 @@ public function wxEvent()
             $this->typeContent($data); //先调用这个方法 判断是什么类型
     
             }
-
-            if($data->EventKey == "zwm"){
+                if($data->Event =='CLTCK'){
+            if($data->EventKey == 'zwm'){
                 $key = $data->FromIserName;
                 $times = date("Y-m-d", time());
                 $date =Redis::zrange($key, 0,-1);//从0开始
@@ -59,8 +59,10 @@ public function wxEvent()
                     $score = Redis::incrby($keys . "_score",100);
                 }
                 $content ="恭喜你签到了第". $zincrby . "天" . "那你积累获得了".$score."积分";
+                
                     
                 }
+            }
 
     
 

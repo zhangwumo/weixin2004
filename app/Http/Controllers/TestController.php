@@ -182,7 +182,7 @@ public function wxEvent()
             //使用guzzle发送get请求
             $client = new Client();  //实例化客户端
             $response = $client->request('GET',$url,['verify'=>false]);     //发送请求并接受响应
-
+                                    
             $json_str = $response->getBody();          //服务器的响应数据
 
 

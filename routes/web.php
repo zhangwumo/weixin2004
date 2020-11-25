@@ -34,3 +34,9 @@ Route::any('/guzzle2','WxController@guzzle2');
 Route::get('/menu','TestController@menu');
 
 
+
+//小程序
+
+Route::get('/goodslist','AcaController@goodslist');
+Route::get('/xcxlogin','Weixin\XcxController@login');//小程序登录
+Route::any('/detail','Weixin\XcxController@detail');

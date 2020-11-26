@@ -61,4 +61,19 @@ class XcxController extends Controller
         ];
         return $array;
     }
+    public function addfav(Request $request){
+        $goods_id = $request->get('goods_id');
+//        $token = $request->get('token');
+
+        //加入收藏redis有序集合
+        $uid = 2345;
+        $key = 'xcx:add-fav'.$uid;   //用户收藏商品的有序集合
+        Redis::zadd($key,time(),$goods_id);  //将商品id加入有序集合并给排序值
+        $response = [
+            'errno'=>0,
+            'msg'=>'ok'
+        ];
+
+        return $response;
+    }
 }

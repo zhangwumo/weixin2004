@@ -40,3 +40,5 @@ Route::get('/menu','TestController@menu');
 Route::get('/goodslist','AcaController@goodslist');
 Route::get('/xcxlogin','Weixin\XcxController@login');//小程序登录
 Route::any('/detail','Weixin\XcxController@detail');
+
+Route::get('/add-fav','Weixin\XcxController@addfav');//收藏

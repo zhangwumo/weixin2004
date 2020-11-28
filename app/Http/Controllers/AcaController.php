@@ -5,7 +5,7 @@ use App\Models\IndexModel;
 use App\Models\Xcxlogin as ModelsXcxlogin;
 use Illuminate\Http\Request;
 use DB;
-use App\Modes\Xcxlogin;
+use App\Models\Xcxlogin;
 class AcaController extends Controller
 {
     public function goodslist(){
@@ -43,7 +43,7 @@ class AcaController extends Controller
     } else {              //成功
         $openid = $data['openid'];          //用户OpenID
         //判断新用户 老用户
-        $u =Xcxlogin::where(['openid' => $openid])->first();
+        $u = Xcxlogin::where(['openid' => $openid])->first();
         if ($u) {
             // TODO 老用户
             $uid = $u->id;

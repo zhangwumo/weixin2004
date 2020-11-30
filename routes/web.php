@@ -43,3 +43,4 @@ Route::any('/detail','Weixin\XcxController@detail');
 
 Route::get('/home-login','AcaController@homeLogin');//首页登录
 Route::get('/add-fav','Weixin\XcxController@addfav');//收藏
+Route::any('/userLogin','AcaController@userLogin');  //个人中心登录

@@ -14,7 +14,7 @@ class AcaController extends Controller
 {
     public function goodslist(){
     
-    $g = IndexModel::select('goods_id','goods_name','goods_price','goods_img')->limit(10)->get()->toArray();
+    $g = IndexModel::select('goods_id','goods_name','shop_price','goods_img')->limit(10)->get()->toArray();
     
     $response = [
 
@@ -37,6 +37,7 @@ class AcaController extends Controller
 
     //使用code
     $url = 'https://api.weixin.qq.com/sns/jscode2session?appid=' . env('WX_XCX_APPID') . '&secret=' . env('WX_XCX_SECRET') . '&js_code=' . $code . '&grant_type=authorization_code';
+        
     $data = json_decode(file_get_contents($url), true);
     //自定义登录状态
     if (isset($data['errcode']))     //有错误

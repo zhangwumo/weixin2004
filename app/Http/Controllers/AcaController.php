@@ -104,9 +104,11 @@ public function userLogin(Request $request)
     //接收code
     //$code = $request->get('code');
     $token = $request->get('token');
+    dd($token);
 
     //获取用户信息
     $userinfo = json_decode(file_get_contents("php://input"), true);
+    //dd($userinfo);die;
 //        dd($userinfo);
     $redis_login_hash = 'h:xcx:login:' . $token;
     //获取openid

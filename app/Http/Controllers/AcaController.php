@@ -14,7 +14,7 @@ class AcaController extends Controller
 {
     public function goodslist(){
     
-    $g = IndexModel::select('goods_id','goods_name','shop_price','goods_img')->limit(10)->get()->toArray();
+    $g = IndexModel::select('goods_id','goods_name','goods_price','goods_img')->limit(10)->get()->toArray();
     
     $response = [
 

@@ -24,8 +24,8 @@ Route::any('Token','TestController@wxEvent');
 
 Route::get('/wx/token','TestController@getAccessToken');//获取
 
-Route::get('data','TestController@data');//测试
-Route::post('date','WxController@date');//测试1
+Route::any('data','TestController@data');//测试
+Route::any('date','WxController@date');//测试1
 //微信接口
 Route::get('/guzzle','WxController@guzzle');
 Route::any('/guzzle2','WxController@guzzle2');
@@ -41,6 +41,6 @@ Route::get('/goodslist','AcaController@goodslist');
 Route::get('/xcxlogin','Weixin\XcxController@login');//小程序登录
 Route::any('/detail','Weixin\XcxController@detail');
 
-Route::get('/home-login','AcaController@homeLogin');//首页登录
+// Route::get('/home-login','AcaController@homeLogin');//首页登录
 Route::get('/add-fav','Weixin\XcxController@addfav');//收藏
 Route::any('/userLogin','AcaController@userLogin');  //个人中心登录

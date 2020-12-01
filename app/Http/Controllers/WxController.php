@@ -18,7 +18,7 @@ class WxController extends Controller
         echo $json_str;
     }
 
- public function guzzle2(){
+public function guzzle2(){
     $access_token = $this->getAccessToken();
     $type = "image";
     $url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=".$access_token."&type=".$type;
@@ -39,7 +39,7 @@ class WxController extends Controller
 }
 
 public function date()
-  {
+{
     //echo '<pre>';print_r($_POST);echo '<pre>';
     $xml_data =file_get_contents("php://input");
 

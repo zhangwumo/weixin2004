@@ -134,7 +134,7 @@ public function wxEvent()
     if($data->MsgType=="text"){
         $city = urlencode(str_replace("天气:","",$data->Content));
         $key = "e2ca2bb61958e6478028e72b8a7a8b60";
-        $url = "http://apis.juhe.cn/simpleWeather/query?city=".$city."&key=".$key;
+        $url = "https://v0.yiketianqi.com/api?city=".$city."&key=".$key;
         $tianqi = file_get_contents($url);
         //file_put_contents('tianqi.txt',$tianqi);
         $res = json_decode($tianqi,true);
@@ -251,7 +251,7 @@ public function wxEvent()
                             "sub_button"=>[
                                 [
                                     "type"=>"view",
-                                    "name"=>"语文",
+                                    "name"=>"天气",
                                     "url"=>"https://www.baidu.com/"
                                 ],
                                 [
